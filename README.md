@@ -1,8 +1,10 @@
 # filmweb-php
 Prosty parser filmweb.pl - na chwilę obecną zwraca takie dane jak: tytuł filmu, oryginaly tytuł, opis, rok produkcji, kategorie.
+
 Zapraszam do odwiedzenia strony [nSolutions.pl](http://www.nsolutions.pl/)
 
 # Przykładowy zrzut dla filmu Matrix
+<pre>
 object(stdClass)#1 (5) {
   ["title"]=>
   string(6) "Matrix"
@@ -30,8 +32,9 @@ object(stdClass)#1 (5) {
     }
   }
 }
-
+</pre>
 # Przykładowe użycie
+```php
 <?php
 // Ładowanie klasy filmweba
 require_once 'classes/filmweb.php';
@@ -42,6 +45,7 @@ require_once 'classes/remote.php';
 // Zwróci nam informacje o filmie Matrix
 var_dump(Filmweb_Parser::getMovie('Matrix'));
 ?>
+```
 
 # TODO
 Piszcie co dodać - jaką funkcjonalność :)
