@@ -88,14 +88,14 @@ class Filmweb_Parser
         // Nazwa filmu
         'title' => array
         (
-            'reg' => '/(<meta name=format-detection content="telephone=(.+?)"><meta property="og:title" content="(.+?)">|<a typeof="v:Review-aggregate" href="(.+?)" title=(.+?) property="v:name" property="v:itemreviewed">(.+?)<\/a>)/is',
+            'reg' => '/<a typeof="v:Review-aggregate" href="(.+?)" title=(.+?) property="v:name" property="v:itemreviewed">(.+?)<\/a>/is',
             'data' => 3,
             'all' => FALSE
         ),
         // Tytuł oryginalny
         'origTitle' => array
         (
-            'reg' => '/<h2 class=origTaaaaitle>(.+?)<\/h2>/i',
+            'reg' => '/<h2 class="text-large caption">(.+?)<\/h2>/i',
             'data' => 1,
             'all' => FALSE
         ),
