@@ -82,26 +82,27 @@ class Filmweb_Parser
         76 => "propagandowy"
     );
     
+    
     public static $regexps = array
     (
         // Nazwa filmu
         'title' => array
         (
-            'reg' => '/<a typeof="v:Review-aggregate" href=".+?" title=.* property="v:name" property="v:itemreviewed">(.+?)<\/a>/is',
-            'data' => 1,
+            'reg' => '/(<meta name=format-detection content="telephone=(.+?)"><meta property="og:title" content="(.+?)">|<a typeof="v:Review-aggregate" href="(.+?)" title=(.+?) property="v:name" property="v:itemreviewed">(.+?)<\/a>)/is',
+            'data' => 3,
             'all' => FALSE
         ),
         // Tytuł oryginalny
         'origTitle' => array
         (
-            'reg' => '/<h2 class=origTitle>(.+?)<\/h2>/is',
+            'reg' => '/<h2 class=origTaaaaitle>(.+?)<\/h2>/i',
             'data' => 1,
             'all' => FALSE
         ),
         // Opis
         'description' => array
         (
-            'reg' => '/<span class=filmDescrBg property="v:summary">(.+?)<\/span>/is',
+            'reg' => '/(<div class=filmPlot>(.+?)<\/div>)/is',
             'data' => 1,
             'all' => FALSE,
             'filter' => 'strip_tags' 
@@ -109,9 +110,10 @@ class Filmweb_Parser
         // Rok produkcji
         'year' => array
         (
-            'reg' => '/<span id=filmYear class=filmYear> \(([0-9]{4})\) <\/span>/is',
+            'reg' => '/(<span id=filmYear class=filmYear> \(([0-9]{4})\) <\/span>|<span id=filmYear class=halfSize>\((?P<digit>\d+)\) <\/span>)/is',
             'data' => 1,
-            'all' => FALSE
+            'all' => FALSE,
+            'filter' => array('preg_replace', '/[^\d]/', '')
         ),
         // Gatunek
         'genres' => array
@@ -121,7 +123,21 @@ class Filmweb_Parser
             'all' => TRUE,
             'references' => array('Filmweb_Parser', 'genres'),
         ),
+        'cover' => array
+        (
+        	'reg' => '/<div class=posterLightbox><a rel="v:image" href="(.+?)" class=film_mini><img src="(.+?)" alt="(.+?) title="(.+?)"><\/a><\/div>/',
+        	'data' => 1,
+        	'all' => FALSE
+        ),
+        'tags' => array
+        (
+        	'reg' => '/<meta name=keywords content="(.+?)">/',
+        	'data' => 1,
+        	'all' => FALSE,
+                'filter' => array('explode', ' ')
+        ),
     );
+
     
    /**
     * Funkcja odpowiedzialna za pobranie informacji o filmie.
@@ -175,9 +191,23 @@ class Filmweb_Parser
                 else
                 {
                     if(isset($r['filter']))
-                        $data->$k = call_user_func($r['filter'], $found[$r['data']]);
+                    {
+                        if(is_array($r['filter']))
+                        {
+                            if(isset($r['filter'][2]))
+                                $data->$k = call_user_func($r['filter'][0], $r['filter'][1], $r['filter'][2], $found[$r['data']]);
+                            else
+                                $data->$k = call_user_func($r['filter'][0], $r['filter'][1], $found[$r['data']]);
+                        }
+                        else
+                        {
+                            $data->$k = call_user_func($r['filter'], $found[$r['data']]);
+                        }
+                    }
                     else
+                    {
                         $data->$k = $found[$r['data']];
+                    }
                 }
             }
         }
