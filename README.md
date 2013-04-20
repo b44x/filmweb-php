@@ -1,4 +1,7 @@
 # filmweb-php
+
+UWAGA PROJEKT PRZENIESIONY DO [filmweb-api](https://github.com/nSolutionsPL/filmweb-api)
+
 Prosty parser filmweb.pl - na chwilę obecną zwraca takie dane jak: tytuł filmu, oryginaly tytuł, opis, rok produkcji, kategorie.
 
 Zapraszam do odwiedzenia strony [nSolutions.pl](http://www.nsolutions.pl/)
