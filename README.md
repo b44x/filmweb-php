@@ -105,3 +105,7 @@ var_dump(Filmweb_Parser::getMovie('Matrix'));
 
 # TODO
 Piszcie co dodać - jaką funkcjonalność :)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nSolutionsPL/filmweb-php/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
